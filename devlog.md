@@ -10,3 +10,9 @@
 - Thoughts: 
 - Plan how the structure and code will interacty between the Logger decoder and driver file.
 - created and completed logger file, create driver file still need to understand pipe commands again
+
+## Wed Mar 12 12:45:12 CDT 2025
+ New Development Log Entry
+
+- Thoughts: 
+ Plan for session: figure out piping for user input and two child programs.
