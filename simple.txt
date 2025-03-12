@@ -1,0 +1,4 @@
+2025-03-11 22:44[START] Logging Started.
+2025-03-11 22:44 Hello can you see this?
+2025-03-11 22:44 Hi THERE SMARAN
+2025-03-11 22:44[STOPPED] Logging Stopped. 
