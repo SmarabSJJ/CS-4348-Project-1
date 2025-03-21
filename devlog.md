@@ -15,4 +15,12 @@
  New Development Log Entry
 
 - Thoughts: 
- Plan for session: figure out piping for user input and two child programs.
+- Plan for session: figure out piping for user input and two child programs.
+## Sun Mar 16 14:08:46 CDT 2025
+- New development log entry.
+
+## Fri Mar 21 15:18:26 CDT 2025
+- New development log entry.
+
+- Thoughts: 
+ Plan for session: figured out how to pipe and propragm the communicaiton process for the 3 programs, completing UI for driver
