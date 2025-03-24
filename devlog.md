@@ -19,6 +19,8 @@
 
 ## Sun Mar 16 14:08:46 CDT 2025
 - New development log entry.
+- Thoughts: 
+- Work on practice program for understading how to send and recieve input from parent to child and back
 
 ## Fri Mar 21 15:18:26 CDT 2025
 - New development log entry.

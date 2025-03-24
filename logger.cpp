@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <fstream>
+#include <unistd.h>
 #include <ctime>
 
 using namespace std;
@@ -24,9 +25,10 @@ int main(int argc, char *argv[])
 
     string curr = "";
     int num = 0;
+    char buffer[512];
     while (1)
     {
-        getline(cin, curr);
+        ssize_t bytesRead = read(STDIN_FILENO, buffer, sizeof(buffer));
 
         time_t now = std::time(nullptr);
         tm *localTime = localtime(&now);
@@ -43,13 +45,13 @@ int main(int argc, char *argv[])
             num++;
         }
 
-        if (curr == "quit")
+        if (strcmp(buffer, "exit") == 0)
         {
             file << timeStr << "[STOPPED] Logging Stopped. \n";
             file.close();
             break;
         }
-        file << timeStr << " " << curr << endl;
+        file << timeStr << " " << buffer << endl;
     }
 
     return 0;

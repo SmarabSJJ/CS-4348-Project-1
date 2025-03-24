@@ -6,13 +6,25 @@
 
 using namespace std;
 
+void toLower(string &command)
+{
+    transform(command.begin(), command.end(), command.begin(), [](unsigned char c)
+              { return tolower(c); });
+}
+void toUpper(string &command)
+{
+    transform(command.begin(), command.end(), command.begin(), [](unsigned char c)
+              { return toupper(c); });
+}
+
 int main()
 {
-    int pipefd[2];
+    int pipePtoCfd[2], pipeCtoPfd[2];
+    string command, arguement;
     pid_t pid;
 
     // Create the pipe
-    if (pipe(pipefd) == -1)
+    if (pipe(pipePtoCfd) || pipe(pipeCtoPfd) == -1)
     {
         cerr << "Pipe failed." << endl;
         return 1;
@@ -30,51 +42,57 @@ int main()
     if (pid > 0)
     {
         // Parent process
-        close(pipefd[0]); // Close unused read end of the pipe
+        close(pipePtoCfd[0]); // Close unused read end of the pipe
+        close(pipeCtoPfd[1]);
+
+        // fcntl(pipeCtoPfd[0], F_SETFL, O_NONBLOCK);
 
         string input;
         while (true)
         {
-            cout << "Enter a number or 'quit' to exit: ";
+            cout << "Enter here: " << endl;
             getline(cin, input);
 
             // If user types quit, send "quit" to the child and exit
-            if (input == "quit")
+            if (input == "exit")
             {
-                write(pipefd[1], input.c_str(), input.length() + 1);
+                write(pipePtoCfd[1], input.c_str(), input.length() + 1);
                 break;
             }
 
-            write(pipefd[1], input.c_str(), input.length() + 1);
-
-            // Validate the input is a number
             istringstream iss(input);
-            int number;
-            if (iss >> number)
-            {
-                // Send valid number to child process
-                write(pipefd[1], &number, sizeof(number));
-            }
-            else
-            {
-                cout << "Invalid input, please enter a number or 'quit'." << endl;
-            }
+            iss >> command >> arguement;
+            toLower(command);
+            toLower(arguement);
+            if (command == "passkey" || command == "encrypt" || command == "decrypt" || command == "history")
+                write(pipePtoCfd[1], input.c_str(), input.length() + 1);
+
+            char buffer1[1024];
+            ssize_t bytesRead;
+
+            bytesRead = read(pipeCtoPfd[0], buffer1, sizeof(buffer1) - 1);
+
+            buffer1[bytesRead] = '\0'; // Null-terminate the received data
+
+            cout << buffer1 << endl;
         }
 
-        close(pipefd[1]); // Close write end after sending "quit"
-        wait(NULL);       // Wait for child process to finish
+        close(pipePtoCfd[1]); // Close write end after sending "quit"
+        close(pipeCtoPfd[0]);
+        wait(NULL); // Wait for child process to finish
     }
     else
     {
         // Child process
-        close(pipefd[1]); // Close unused write end of the pipe
+        close(pipePtoCfd[1]); // Close unused write end of the pipe
+        close(pipeCtoPfd[0]);
 
-        dup2(pipefd[0], STDIN_FILENO); // Use the pipe's read end as standard input
-
+        dup2(pipePtoCfd[0], STDIN_FILENO); // Use the pipe's read end as standard input
+        dup2(pipeCtoPfd[1], STDOUT_FILENO);
         // Prepare arguments to execvp
         char *args[] = {"./Vingere", NULL}; // Assuming child program is named "child"
+        execvp(args[0], args);              // Execute the child program
 
-        execvp(args[0], args); // Execute the child program
         cerr << "Execvp failed." << endl;
         return 1;
     }
