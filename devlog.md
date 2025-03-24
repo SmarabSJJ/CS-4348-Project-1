@@ -16,6 +16,7 @@
 
 - Thoughts: 
 - Plan for session: figure out piping for user input and two child programs.
+
 ## Sun Mar 16 14:08:46 CDT 2025
 - New development log entry.
 
@@ -23,4 +24,8 @@
 - New development log entry.
 
 - Thoughts: 
- Plan for session: figured out how to pipe and propragm the communicaiton process for the 3 programs, completing UI for driver
+- Plan for session: figured out how to pipe and propragm the communicaiton process for the 3 programs, completing UI for driver
+
+- Completed all of driver implementiaiton including the correct format of input and out put cross-referenced the project 1 video for proper functionality of sub programs
+
+- Reflection: Completed complete integration of project 1 and every program works as intended with one another. Sat down at TAMU's engineering schhol and finished it in about 5 hours of straight coding. 
