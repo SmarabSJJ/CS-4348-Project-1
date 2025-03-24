@@ -32,4 +32,8 @@ After ensuring all programs are compiled and up to date run this command:
 This command will run the program and store the logged data in the sample.txt file
 
 
+## Extra Notes
+
+Please note the extra files you see a
+
 

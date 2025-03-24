@@ -14,10 +14,6 @@ string trim(const string &str)
     return trimmed;
 }
 
-
-
-
-
 int main()
 {
     char buffer[256];
